@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{mathpazo}
+\graphicspath{{}}
+
+\begin{document}
+
+%Description
+%This document is meant to outline the relationship between exposure value and mean pixel count in the Feder Observatory's
+%CCD in the R filter
+
+\title{R Bandpass Linearity of the Paul P Feder Telescope}
+
+\author{Elias Holte\\
+	Department of Physics and Astronomy\\
+	Minnesota State University Moorhead}
+
+\maketitle
+
+\begin{abstract}
+This paper looks at the linearity of the Paul P Feder Telescope at the Regional Science Center outside Glyndon, MN. To an extent, the pixels in the telescope's CCD respond linearly to exposure time (twice as long exposure time yields twice as many counts). This relationship only holds until pixels become non-linear, at which point the CCD becomes unreliable. This document presents data of mean pixel value versus exposure time for flat images, with exposure times ranging from 1 second to 850 seconds. The data suggests a pixel saturation limit of 65535 ADU with magnitude differences of 0.1 and 0.01 at mean pixel values of 65,180 and 53,820 respectively.
+\end{abstract}
+
+\section{Introduction}
+The relationship between exposure time and mean pixel value is theoretically linear. In reality, for images with short exposures the response is linear, as the pixels are far from the saturation limit, but for longer exposures the relationship between exposure time and mean pixel value ceases to be linear and eventaully levels out at a value where all of the pixels are at maximum saturation (in this instance the mean pixel value is equal to the saturation limit)\cite{howell06}. It is important to understand where a telescope fails to respond linearly with exposure time so those pixels can be flagged for inspection to determine if the data are reliable. On June 4\textsuperscript{th}, 2016 data were taken with the Paul P. Feder telescope specifically to use for determining the linearity of the Apogee Alta U9 CCD.
+
+\section{Methods}
+On the night of June 4\textsuperscript{th}, 2016, 31 R-filter flat images were collected with the 16-inch cassegrain reflecting telescope at the Paul P Feder Observatory. These images were taken with exposures ranging from 20 to 80 seconds with sampling every 2 seconds. The range was determined by a trial and error process of exposing the CCD to determine the exposures that would yeild mean pixel values of 35,00 ADU to 65,000 ADU. After image accusition there was no image calibration done on the flats, as the interest was solely in the response of the CCD to any signal, reguardless of its source. In order to extract the mean pixel value from the FITS images a simple jupyter notebook was created using the package CCDproc that presented the data graphically\cite{jupyter}\cite{ccdproc}.
+
+\section{Results}
+Figure 1 shows the mean pixel values of all 31 images plotted against their exposure time. The linear fit is shown calculated from the first 4 points and has a y-intercept of 2612 ADU along with a RMS value of 35 ADU The highest mean pixel value achieved is 65300 ADU, the lowest value is 34700 ADU. The highest singular pixel value achieved is 65535 ADU.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale = 0.5]{LinearityGraph}
+	\caption{This graph presents the mean pixel value of each flat image versus their exposure value. A trendline is placed using the first four data points}
+\end{figure}
+
+For observing, it is useful to think of the deviation from the trendline in terms of magnitude difference. Figure 2 shows the degree of magnitude difference of the mean value from that predicted by the trendline in figure 1. Two \\milestones'' are predicted by this data: 53,820, and 65,180. These two mean pixel values correspond to a magnitdue difference of 0.01, and 0.1 respectively. The magnitude difference fluxuated around 0.001 for mean pixel values ranging from 34,700 (smallest mean) to 44,500.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale = 0.35]{MagErrorGraph}
+	\caption{Astronomical magnitude difference between the measured mean pixel value and the value predicted by the trendline. At roughly 49,000 ADU the difference is roughly 1/100 of a magnitude.}
+\end{figure}
+
+\section{Conclusion}
+The linear fit in figure 1 has a y-intercept of 2612 ADU. This value represents what a zero-exposure image (like a bias image) would have for a mean pixel value. Bias images from the CCD have mean pixel values around 3000 so there is a difference in the y-intercept and the measured mean value for zero-exposure images. A closer look into the 0-20 second exposure range may be required to bring light to this difference.
+The main takeaway for observerst are the mangitude differences shown in figure 2. For example, if an observer is trying to measure a variablility in the star of 0.01 magnitude they should aim for a mean pixel value in their flats lower then 40 thousand. Further more, if  There may be ways to correct for linearity, further study is needed.
+
+\begin{thebibliography}{9}
+
+\bibitem{howell06}
+	Steven B. Howell
+	\emph{Handbook of CCD Astronomy}
+	University Press, Cambridge
+	2006
+
+\bibitem{jupyter16}
+	Project Jupyter
+	\emph{Jupyter Documentation}
+	2016
+
+\bibitem{ccdproc16}
+	Matthew Craig, Steve Crawford
+	\emph{ccdproc: Read the Docs}
+	2016
+
+\end{thebibliography}
+\end{document}
