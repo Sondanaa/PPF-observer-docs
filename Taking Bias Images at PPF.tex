@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{mathpazo}
+\graphicspath{{}}
+
+\begin{document}
+
+%Description
+%This document delves into the behavior of bias images in response to the lights in the observitory being turned on.
+
+\title{Taking Bias Images with the Paul P Feder Telescope with and without Lights}
+
+\author{Elias Holte, Andrew Block\\
+	Department of Physics and Astronomy\\
+	Minnesota State University Moorhead}
+
+\maketitle
+
+\begin{abstract}
+Bias images are zero-exposure images that represent the offset voltage running across a telescope's CCD which is present for all images. Bias images are used for subtracting the offset from other images taken with the CCD. This document investigates the behavior of bias images in response to varying amounts of light around the camera. The data shows a correlation between having the lights on and a constant voltage drop across the CCD, perhaps due to the power draw from the various light sources.
+\end{abstract}
+
+\section{Introduction}
+CCDs have an offset voltage across the plate to assure that random noise does not cause negative pixel values. This offset is present in all images taken with the CCD and consequently has to be accounted for by subtracting the bias values for each pixel from each other type of image\cite{howell06}. Often times bias images are not used, as the bias is included in other calibration images that are subtracted from the main science image. However, occasionally these other calibration images fail and the bias images are needed for calibration. 
+
+At the Paul P. Feder Observatory there has never been a regulation for when bias images should be taken and as a they are often taken with and without ambient lights or during dome flats where there are high levels of light in the observatory. The concern is that the ambient light (which has been found to affect the other calibration images) may have some effect on the bias images. The expected effect (if any) was that the ambient light would correlate with an increased offset voltage in the bias images.
+\section{Methods}
+In order to measure the effect of ambient light on taking bias images three setups were used to capture 10 bias images each. The first setup was without any lights on in the dome during bias capture, the second setup was with the low-powered ''house'' lights on, and the final setup was with the ''house'' lights on as well as the two high-powered lights used for taking flat images. These setups provide a range of ambient light as well as represent three likely ways a researcher may take bias images. After collection, each set of 10 images was averaged to create a ''master'' bias for each setup. To easily compare each set, the master bias images were averaged down each column of pixels to create a 2D profile of the image. All analysis was done using a jupyter notebook and the images were handeled using ccdproc\cite{jupyter16}\cite{ccdproc16}.
+\section{Results}
+The 2D profile for each of the master images were nearly identical save for a vertical shift (figure 1). The data shows that the master images representing the setup with all lights off had higher values for average pixel value for each column followed by the setup with low-powered lights and finally the setup with low and high-powered lights. Note that the deep jump around 3100 is the result of a single average column value and is shown in both three setups.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale = 0.4]{VariousLightBias}
+	\caption{The top set of data represents the bias images taken without lights, the next set represents images taken with the low-powered light, and the lowest set represents the data taken with the flat lights on in addition to the low-powered light.}
+\end{figure}
+
+To further investigate the data from figure 1 the 2D profiles were subtracted from each other to determine the difference between the profiles with lights and the profile without. Figure 2 shows a scattered distribution around 0.8 ADU for the difference between no lights and the house lights and a scattered distribution around 3 ADU for the difference between no lights and the flat lights (in addition to the house lights).
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale = 0.4]{BiasDifference}
+	\caption{With the horizontal axis representing the placement of the column on the CCD, figure 2 represents the difference in the master bias 2D images profile for three lighting setups.}
+\end{figure}
+
+
+\section{Conclusion}
+The 2D profiles from figure 1 are nearly identical save for a shift in column value across the CCD. Figure 2 supports this to some extent. However, the spread of the difference between no lights and one light is on the order of the difference between the mean column values. 
+
+There is a definite correlation between the amount of ambient light and the 2D profile for each setup; the greater the amount of ambient light in the dome seems to correspond to lower average column values. This correlation is directly against the hypothesis. The cause of this relationship is unclear as of yet, but a possible solution has to do with the power draw of the lights. The CCDs offset voltage is drawn from the dome's power supply, the same one that powers the lights. The draw from the lights may be enough to affect the voltage across the CCD in a negative manner. To test this hypothesis the experiment could be duplicated with the camera on a sepetare power supply, perhaps one of the generators used to power the REgional Science Center's portable telescopes.
+
+The question of whether or not ambient light has some effect on bias images could be answered with 'yes', but is the effect meaningful? Perhaps not. The bias images for each setup are different in a overall addition or subtraction of counts, that is to say the effect is uniform over the entire CCD. When doing aperture photometry all uniform effects are corrected for by subtracting the background counts from that of the observed object using an annulus. As long as the effect is uniform then it should not affect aperture photometry which is the brunt (if not entirely) what the Feder telescope is used for.
+
+\begin{thebibliography}{9}
+
+\bibitem{howell06}
+	Steven B. Howell
+	\emph{Handbook of CCD Astronomy}
+	University Press, Cambridge
+	2006
+
+\bibitem{jupyter16}
+	Project Jupyter
+	\emph{Jupyter Documentation}
+	2016
+
+\bibitem{ccdproc16}
+	Matthew Craig, Steve Crawford
+	\emph{ccdproc: Read the Docs}
+	2016
+
+\end{thebibliography}
+
+\end{document}
