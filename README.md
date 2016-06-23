@@ -1,2 +1,2 @@
-# glowing-bias-latex
-This is a repository for a latex document describing how the Feder Observatory's CCD handels bias images.
+# PPF-observer-docs
+This is a repository for any documents relating to the Paul P. Feder Observatory at the Regional Science Center
