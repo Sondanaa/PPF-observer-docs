@@ -21,7 +21,7 @@ def filter_transform(mag_data, output_filter, R=None, B=None,
     output_filter must be a string 'R', 'B', 'V', or 'I' and for any output filter must be passed a 
     corresponding key (arguemnts R, B, V...) to access the necissary filter information from
     mag_data
-    Postconditions: returns a
+    Postconditions: returns an astropy.table object
     '''
     if output_filter == 'R':
         if r and i != None:
